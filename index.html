@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: linear-gradient(to right, #ff9a9e, #fad0c4);
+            padding: 50px;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
+            width: 400px;
+            margin: auto;
+        }
+
+        h1 {
+            color: #e91e63;
+        }
+
+        input {
+            padding: 10px;
+            width: 80%;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #e91e63;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+            button:hover {
+                background: #d81b60;
+            }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #4a148c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💖 Love Calculator 💖</h1>
+        <input type="text" id="name1" placeholder="Nhập tên người thứ nhất">
+        <input type="text" id="name2" placeholder="Nhập tên người thứ hai">
+        <br>
+        <button onclick="calculateLove()">Tính toán</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function calculateLove() {
+            let name1 = document.getElementById("name1").value;
+            let name2 = document.getElementById("name2").value;
+
+            fetch(`/api/love/calculate?name1=${encodeURIComponent(name1)}&name2=${encodeURIComponent(name2)}`)
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById("result").innerText =
+                        `${data.name1} ❤️ ${data.name2} = ${data.score}%\n${data.message}`;
+                })
+                .catch(err => {
+                    document.getElementById("result").innerText = "Lỗi: " + err;
+                });
+        }
+    </script>
+
+
+</body>
+</html>
